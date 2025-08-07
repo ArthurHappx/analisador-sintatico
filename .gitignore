@@ -2,3 +2,4 @@
 *.hi
 *.hie
 .ghc.environment.*
+dist-newstyle
