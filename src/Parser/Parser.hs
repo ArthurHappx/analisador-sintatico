@@ -96,5 +96,7 @@ parseUnary (TkPlus : rest') = UnaryOp "+" (parseFactor rest')
 
 parseValue :: [Token] -> Expr
 parseValue [] = error "ERROR"
-parseValue (TkIdent name : rest') = Var name
-parseValue (TkNumber num : rest') = Number num
+parseValue [TkIdent name] = Var name
+parseValue [TkNumber num] = Number num
+parseValue (TkIdent name : rest') = error ("Unexpected Char: " ++ show rest')
+parseValue (TkNumber  num: rest') = error ("Unexpected Char: " ++ show rest')
