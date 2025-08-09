@@ -1,8 +1,6 @@
-module Lexer where
+module Lexer.Lexer ( Token(..), lexFromFile, lexer ) where
 
-import System.IO (readFile)
 import Control.Exception (try, IOException)
-
 
 data Token
     = TkIdent String
@@ -18,7 +16,6 @@ data Token
     | EOF
     deriving (Show, Eq)
 
-
 lexFromFile :: FilePath -> IO (Either String [Token])
 lexFromFile filePath = do
     result <- try (readFile filePath) :: IO (Either IOException String)
@@ -26,40 +23,39 @@ lexFromFile filePath = do
         Left err -> return $ Left $ "ReadFileError " ++ show err
         Right content -> return $ Right $ lexer content
 
-
 lexer :: String -> [Token]
-lexer input = lexAll input
+lexer input = lexAll 1 input
 
-lexAll :: String -> [Token]
-lexAll [] = [EOF]
-lexAll (c:cs)
-    | isSpace c && c == '\n' = NEWLINE : lexAll cs
-    | isSpace c = lexAll cs
-    | c == '.' = lexNumber (c:cs)  -- Caso especial para .5 (verifica primeiro)
-    | isDigit c = lexNumber (c:cs)
-    | isAlpha c = lexIdentifier (c:cs)
-    | c == '='               = TkAssign : lexAll cs
-    | c == '+'               = TkPlus : lexAll cs
-    | c == '-'               = TkMinus : lexAll cs
-    | c == '/'               = TkDiv : lexAll cs
-    | c == '*'               = TkMult : lexAll cs
-    | c == '('               = TkOpenPar : lexAll cs
-    | c == ')'               = TkClosePar : lexAll cs
-    | otherwise              = error $ "SintaxError: invalid sintax '" ++ [c] ++ "'"
+lexAll :: Int -> String -> [Token]
+lexAll _ [] = [EOF]
+lexAll lineNum (c:cs)
+    | isSpace c && c == '\n' = NEWLINE : lexAll (lineNum+1) cs
+    | isSpace c = lexAll lineNum cs
+    | c == '.' = lexNumber lineNum (c:cs)  -- Caso especial para .5 (verifica primeiro)
+    | isDigit c = lexNumber lineNum (c:cs)
+    | isAlpha c = lexIdentifier lineNum (c:cs)
+    | c == '='               = TkAssign : lexAll lineNum cs
+    | c == '+'               = TkPlus : lexAll lineNum cs
+    | c == '-'               = TkMinus : lexAll lineNum cs
+    | c == '/'               = TkDiv : lexAll lineNum cs
+    | c == '*'               = TkMult : lexAll lineNum cs
+    | c == '('               = TkOpenPar : lexAll lineNum cs
+    | c == ')'               = TkClosePar : lexAll lineNum cs
+    | otherwise              = error $ "SyntaxError: invalid syntax '" ++ [c] ++ "', line " ++ show lineNum
 
-lexIdentifier :: String -> [Token]
-lexIdentifier input =
+lexIdentifier :: Int -> String -> [Token]
+lexIdentifier lineNum input =
     let (ident, rest) = span isAlphaNum input
-    in TkIdent ident : lexAll rest
+    in TkIdent ident : lexAll lineNum rest
 
-lexNumber :: String -> [Token]
-lexNumber input = 
+lexNumber :: Int -> String -> [Token]
+lexNumber lineNum input = 
     let (numStr, rest) = span isNumberChar input
         isFloat = '.' `elem` numStr
         (isValid, errorMsg) = validateNumber numStr isFloat
     in if isValid
-        then TkNumber numStr : lexAll rest
-        else error errorMsg
+        then TkNumber numStr : lexAll lineNum rest
+        else error (errorMsg ++ " , line " ++ show lineNum)
 
 validateNumber :: String -> Bool -> (Bool, String)
 validateNumber numStr isFloat
@@ -80,7 +76,6 @@ validateNumber numStr isFloat
 isNumberChar :: Char -> Bool
 isNumberChar c = isDigit c || c == '.'
 
-
 isAlphaNum :: Char -> Bool
 isAlphaNum c = isAlpha c || isDigit c
 
@@ -92,15 +87,3 @@ isDigit c = c >= '0' && c <= '9'
 
 isSpace :: Char -> Bool
 isSpace c = c `elem` " \t\r\n"
-
-
-isNumber :: String -> Bool
-isNumber = all isDigit
-
-
-main :: IO ()
-main = do
-    result <- lexFromFile "C:/Users/jotav/Documents/analisador-sintatico/app/test.py"
-    case result of
-        Left err -> putStrLn err
-        Right tokens -> mapM_ print tokens
