@@ -4,7 +4,7 @@ import CLI.Args (parseArgs, Command(..))
 import CLI.Commands (mostrarAjuda, executarTestes)
 import Parser.Parser (programParser)
 import AST.VisualAST (showAST, saveAST)
-import Lexer.Lexer (lexer) -- provisório enquanto o Lexer não fica pronto 
+import Lexer.Lexer (lexer) 
 
 import System.Directory (doesFileExist)
 
@@ -25,7 +25,7 @@ analisarArquivo file = do
     if existe
         then do
             code <- readFile file
-            let tokens = lexer code -- provisório enquanto o lexer não fica pronto
+            let tokens = lexer code
             let ast = programParser tokens
             putStrLn "AST gerada:"
             putStrLn (showAST ast)
