@@ -18,15 +18,15 @@ analisarArquivo :: FilePath -> IO ()
 analisarArquivo file = do
     existe <- doesFileExist file
     if existe
-        then putStrLn $ "Analisando arquivo: " ++ file
-        else putStrLn "Arquivo não encontrado."
+        then return $ file
+        else return ""
 
 analisarArquivoSimplificado :: FilePath -> IO ()
 analisarArquivoSimplificado file = do
     existe <- doesFileExist file
     if existe
-        then putStrLn $ "Análise simplificada de: " ++ file
-        else putStrLn "Arquivo não encontrado."
+        then return $ file
+        else return ""
 
 mostrarAjuda :: IO ()
 mostrarAjuda = do
