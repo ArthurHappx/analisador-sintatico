@@ -1,8 +1,4 @@
-module CLI.Commands
-    ( executarComando
-    , mostrarAjuda
-    , executarTestes
-    ) where
+module CLI.Commands (executarComando) where
 
 import System.Directory (listDirectory, doesFileExist)
 import System.Exit (exitSuccess)
