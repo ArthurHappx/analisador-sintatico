@@ -7,7 +7,7 @@ showAST (Program lns) = readLine lns
     where 
     readLine [] = ""
     readLine (LineStmt h:t) = showStmt h ++ readLine t
-    readLine (LineExpr h:t) = showExpr h ++ readLine t
+    readLine (LineExpr h:t) = "\nAloneExpr\n" ++ showExpr h ++ readLine t
 
 showStmt :: Stmt -> String
 showStmt (Assign name expr) =
@@ -27,11 +27,3 @@ indent = unlines . map ("  " ++) . lines
 
 saveAST :: AST -> FilePath -> IO()
 saveAST ast path = writeFile path (showAST ast)
-
-defaultSaveAST :: AST -> IO()
-defaultSaveAST ast = saveAST ast "../ast_results"
-
-showAndSaveAST :: AST -> FilePath -> IO()
-showAndSaveAST ast path = do 
-    saveAST ast path
-    putStrLn (showAST ast)

@@ -1,0 +1,10 @@
+
+Assign x
+  └─Num 10
+
+Assign y
+  └─Add
+    └─Num 2
+    └─Sub
+      └─Num 3
+      └─Var x

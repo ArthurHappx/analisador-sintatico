@@ -1,4 +1,6 @@
-module Parser.Parser (programParser, Expr(..), AST(..), Stmt(..), Token(..), Line(..)) where
+module Parser.Parser (programParser, Expr(..), AST(..), Stmt(..), Line(..)) where
+
+import Lexer.Lexer ( Token(..) )
 
 newtype AST = Program [Line]
     deriving (Show, Eq)
@@ -19,20 +21,6 @@ data Expr
     | UnaryOp String Expr
     deriving (Show, Eq)
 
-data Token
-    = TkIdent String
-    | TkAssign
-    | TkNumber String
-    | TkPlus
-    | TkMinus
-    | TkDiv
-    | TkMult
-    | TkOpenPar
-    | TkClosePar
-    | NEWLINE
-    | EOF
-    deriving (Show, Eq)
-
 {- programParser ->
 Função principal do programa que desencadeia a recursão de todas as outras funções.
 Retorna uma lista de `Line` com todas as árvores de análise (ASTs) do programa.
@@ -48,6 +36,7 @@ e executa cada uma, diferenciando entre expressões e declarações.
 -}
 parseLineMap :: Int -> [[Token]] -> [Line]
 parseLineMap _ [] = []
+parseLineMap lineNum ([] : rest') = parseLineMap (lineNum+1) rest'
 parseLineMap lineNum (line : rest') = parseLine lineNum line : parseLineMap (lineNum+1) rest'
 
 {- lineSplit ->
@@ -58,7 +47,7 @@ estiver presente no final da lista. O token `NEWLINE` atua como delimitador de l
 lineSplit :: [Token] -> [[Token]]
 lineSplit [] = error "Not valid program"
 lineSplit [EOF] = [[]]
-lineSplit (token:rest') = 
+lineSplit (token:rest') =
     if token == NEWLINE then [] : programLines
     else (token : head programLines ) : safeTail programLines
     where programLines = lineSplit rest'
@@ -92,7 +81,7 @@ parseExpr lineNum x
     | x !! opPos == TkPlus = Plus (parseExpr lineNum (take opPos x)) (parseTerm lineNum (drop (opPos+1) x))
     | x !! opPos == TkMinus = Minus (parseExpr lineNum (take opPos x)) (parseTerm lineNum (drop (opPos+1) x))
     | otherwise = error (errorCaller lineNum 4)
-    where opPos =  findExpr lineNum (-1) 0 x 
+    where opPos =  findExpr lineNum (-1) 0 x
 
 {- findExpr ->
 Função auxiliar de `parseExpr`.
@@ -101,10 +90,10 @@ ignorando operadores unários e operadores dentro de parênteses.
 -}
 findExpr :: Int -> Int -> Int -> [Token] -> Int
 findExpr _ best _ [_] = best
-findExpr lineNum best pos (h:t) 
+findExpr lineNum best pos (h:t)
     | h == TkOpenPar = findExpr lineNum best (pos + parPos) (drop parPos (h:t))
     | notElem h [TkPlus, TkMinus, TkMult, TkDiv] && head t `elem` [TkPlus, TkMinus] = findExpr lineNum (pos+1) (pos+1) t
-    | otherwise = findExpr lineNum best (pos+1) t 
+    | otherwise = findExpr lineNum best (pos+1) t
     where parPos = respPar lineNum 0 0 (h:t)
 findExpr lineNum _ _ _ = error (errorCaller lineNum 4)
 
@@ -119,7 +108,7 @@ parseTerm lineNum x
     | x !! opPos == TkMult = Mult (parseTerm lineNum (take opPos x)) (parseFactor lineNum (drop (opPos+1) x))
     | x !! opPos == TkDiv = Div (parseTerm lineNum (take opPos x)) (parseFactor lineNum (drop (opPos+1) x))
     | otherwise = error (errorCaller lineNum 4)
-    where opPos = findTerm lineNum (-1) 0 x 
+    where opPos = findTerm lineNum (-1) 0 x
 
 {- findTerm ->
 Função auxiliar de `parseTerm`.
@@ -128,10 +117,10 @@ ignorando operadores dentro de parênteses ou usados como unários.
 -}
 findTerm :: Int -> Int -> Int -> [Token] -> Int
 findTerm _ best _ [_] = best
-findTerm lineNum best pos (h:t) 
+findTerm lineNum best pos (h:t)
     | h == TkOpenPar = findTerm lineNum best (pos + parPos) (drop parPos (h:t))
     | notElem h [TkPlus, TkMinus, TkMult, TkDiv] && head t `elem` [TkMult, TkDiv] = findTerm lineNum (pos+1) (pos+1) t
-    | otherwise = findTerm lineNum best (pos+1) t 
+    | otherwise = findTerm lineNum best (pos+1) t
     where parPos = respPar lineNum 0 0 (h:t)
 findTerm lineNum _ _ _ = error (errorCaller lineNum 4)
 
@@ -159,7 +148,7 @@ parseFactor lineNum (TkMinus : rest') = parseUnary lineNum (TkMinus : rest')
 parseFactor lineNum (TkPlus : rest') = parseUnary  lineNum (TkPlus : rest')
 parseFactor lineNum (TkIdent name : rest') = parseValue lineNum (TkIdent name : rest')
 parseFactor lineNum (TkNumber num : rest') = parseValue lineNum (TkNumber num : rest')
-parseFactor lineNum (token:_) = if token `elem` [TkMult, TkDiv] then error (errorCaller lineNum 3) else error (errorCaller lineNum 4)
+parseFactor lineNum (token : _) = if token `elem` [TkMult, TkDiv] then error (errorCaller lineNum 3) else error (errorCaller lineNum 2)
 
 {- parseUnary ->
 Função responsável por valores unários.
@@ -189,14 +178,14 @@ errorCaller lineNum 0 = "SyntaxError: '(' was never closed, line " ++ show lineN
 errorCaller lineNum 1 = "SyntaxError: unmatched ')', line " ++ show lineNum
 errorCaller lineNum 2 = "SyntaxError: invalid syntax, line " ++ show lineNum
 errorCaller lineNum 3 = "SyntaxError: can't use starred expression here, line " ++ show lineNum
-errorCaller lineNum 4 = "Unexpected error, line" ++ show lineNum
+errorCaller lineNum 4 = "Unexpected error, line " ++ show lineNum
 errorCaller _ _ = "? error, ? line"
 
 -- FUNÇÕES ÚTEIS
-safeInit :: [t] -> [t] 
+safeInit :: [t] -> [t]
 safeInit [] = []
 safeInit xs = init xs
 
-safeTail :: [t] -> [t] 
+safeTail :: [t] -> [t]
 safeTail [] = []
 safeTail xs = tail xs

@@ -1,0 +1,18 @@
+
+Assign x
+  └─Div
+    └─Add
+      └─Unary -
+        └─Var b
+      └─Sub
+        └─Mul
+          └─Var b
+          └─Num 2
+        └─Mul
+          └─Mul
+            └─Num 4
+            └─Var a
+          └─Var c
+    └─Mul
+      └─Num 2
+      └─Var a

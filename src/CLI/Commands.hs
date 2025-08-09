@@ -1,6 +1,4 @@
-module CLI.Commands
-    ( runCommand
-    ) where
+module CLI.Commands ( runCommand ) where
 
 import System.Directory (listDirectory, doesFileExist)
 import System.Exit (exitSuccess)
