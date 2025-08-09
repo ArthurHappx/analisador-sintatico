@@ -1,5 +1,5 @@
 module CLI.Commands
-    ( runCommand
+    ( executarComando
     , mostrarAjuda
     , executarTestes
     ) where
@@ -7,27 +7,42 @@ module CLI.Commands
 import System.Directory (listDirectory, doesFileExist)
 import System.Exit (exitSuccess)
 import CLI.Args (Command(..))
+import Lexer.Lexer (lexer)
+import Parser.Parser (programParser)
+import AST.VisualAST (showAST, saveAST)
 
-runCommand :: Command -> IO ()
-runCommand (Analyze file) = analisarArquivo file
-runCommand (AnalyzeSimple file) = analisarArquivoSimplificado file
-runCommand Help = mostrarAjuda
-runCommand (Tests args) = executarTestes args
-runCommand Invalid = putStrLn "Uso inválido. Tente --help"
+executarComando :: Command -> IO ()
+executarComando (Analyze file) = analisarArquivo file
+executarComando (AnalyzeSimple file) = analisarArquivoSimplificado file
+executarComando Help = mostrarAjuda
+executarComando (Tests args) = executarTestes args
+executarComando Invalid = putStrLn "Uso inválido. Tente --help"
 
--- Implementações
 analisarArquivo :: FilePath -> IO ()
 analisarArquivo file = do
     existe <- doesFileExist file
     if existe
-        then putStrLn $ "Analisando arquivo: " ++ file
+        then do
+            putStrLn $ "Analisando arquivo: " ++ file
+            code <- readFile file
+            let tokens = lexer code
+            let ast = programParser tokens
+            putStrLn "AST gerada:"
+            putStrLn (showAST ast)
+            saveAST ast "resultado_ast.txt"
+            putStrLn "AST salva em resultado_ast.txt"
         else putStrLn "Arquivo não encontrado."
 
-analisarArquivoSimplificado :: FilePath -> IO ()
-analisarArquivoSimplificado file = do
+analisarSimplificado :: FilePath -> IO ()
+analisarSimplificado file = do
     existe <- doesFileExist file
     if existe
-        then putStrLn $ "Análise simplificada de: " ++ file
+        then do
+            putStrLn $ "Análise simplificada de: " ++ file
+            code <- readFile file
+            let tokens = lexer code
+            let ast = programParser tokens
+            putStrLn (showAST ast)
         else putStrLn "Arquivo não encontrado."
 
 mostrarAjuda :: IO ()
@@ -49,4 +64,5 @@ rodarTestes :: [FilePath] -> IO ()
 rodarTestes [] = return ()
 rodarTestes (t:ts) = do
     putStrLn ("Rodando teste: " ++ t)
+    -- Aqui você pode chamar uma função para rodar o teste e comparar resultados
     rodarTestes ts
