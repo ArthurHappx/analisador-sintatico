@@ -67,7 +67,7 @@ library
     exposed-modules:  MyLib
 
     -- Modules included in this library but not exported.
-    other-modules: Parser.Parser, AST.VisualAST
+    other-modules: Parser.Parser, AST.VisualAST, CLI.Args, CLI.Commands
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
