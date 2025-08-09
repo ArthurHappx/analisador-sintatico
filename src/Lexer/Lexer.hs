@@ -34,9 +34,10 @@ lexAll :: String -> [Token]
 lexAll [] = [EOF]
 lexAll (c:cs)
     | isSpace c && c == '\n' = NEWLINE : lexAll cs
-    | isSpace c              = lexAll cs
-    | isAlpha c              = lexIdentifier (c:cs)
-    | isDigit c              = lexNumber (c:cs)
+    | isSpace c = lexAll cs
+    | c == '.' = lexNumber (c:cs)  -- Caso especial para .5 (verifica primeiro)
+    | isDigit c = lexNumber (c:cs)
+    | isAlpha c = lexIdentifier (c:cs)
     | c == '='               = TkAssign : lexAll cs
     | c == '+'               = TkPlus : lexAll cs
     | c == '-'               = TkMinus : lexAll cs
@@ -51,30 +52,31 @@ lexIdentifier input =
     let (ident, rest) = span isAlphaNum input
     in TkIdent ident : lexAll rest
 
--- Implementação atualizada de lexNumber
 lexNumber :: String -> [Token]
 lexNumber input = 
     let (numStr, rest) = span isNumberChar input
-        -- Verifica se é um float válido
-        (isValid, errorMsg) = validateNumber numStr
+        isFloat = '.' `elem` numStr
+        (isValid, errorMsg) = validateNumber numStr isFloat
     in if isValid
         then TkNumber numStr : lexAll rest
         else error errorMsg
 
--- Validação completa do número
-validateNumber :: String -> (Bool, String)
-validateNumber numStr
-    | hasMultiplePoints = (False, "SyntaxError: invalid syntax'")
-    | hasLeadingZeros   = (False, "SyntaxError: leading zeros in decimal integer literals are not permitted'" ++ numStr ++ "'")
-    | otherwise         = (True, "")
+validateNumber :: String -> Bool -> (Bool, String)
+validateNumber numStr isFloat
+    | null numStr = (False, "Empty number")
+    | hasMultiplePoints = (False, "SyntaxError: invalid decimal literal with multiple points in '" ++ numStr ++ "'")
+    | startsWithPoint = (False, "SyntaxError: float cannot start with '.' in '" ++ numStr ++ "'")
+    | endsWithPoint = (False, "SyntaxError: float cannot end with '.' in '" ++ numStr ++ "'")
+    | not isFloat && hasLeadingZeros = (False, "SyntaxError: leading zeros in decimal integer literals are not permitted in '" ++ numStr ++ "'")
+    | otherwise = (True, "")
     where
         hasMultiplePoints = length (filter (== '.') numStr) > 1
+        startsWithPoint = head numStr == '.'
+        endsWithPoint = last numStr == '.'
         hasLeadingZeros = case numStr of
-            '0':'.':_ -> False  -- 0.x é válido
-            '0':x:_    -> x /= '.' && isDigit x 
-            _          -> False
+            '0':x:_ -> isDigit x
+            _ -> False
 
--- Função auxiliar para caracteres válidos em números
 isNumberChar :: Char -> Bool
 isNumberChar c = isDigit c || c == '.'
 
@@ -96,3 +98,9 @@ isNumber :: String -> Bool
 isNumber = all isDigit
 
 
+main :: IO ()
+main = do
+    result <- lexFromFile "C:/Users/jotav/Documents/analisador-sintatico/app/test.py"
+    case result of
+        Left err -> putStrLn err
+        Right tokens -> mapM_ print tokens
