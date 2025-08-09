@@ -1,0 +1,15 @@
+
+AloneExpr
+└─Sub
+  └─Add
+    └─Num 1
+    └─Num 2
+  └─Num 2
+
+AloneExpr
+└─Sub
+  └─Num 6
+  └─Num 7
+
+Assign x
+  └─Num 1

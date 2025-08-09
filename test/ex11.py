@@ -1,0 +1,1 @@
+x = 12 #comentarios não são suportados
