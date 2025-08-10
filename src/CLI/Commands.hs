@@ -56,7 +56,7 @@ mostrarAjuda = do
 
 executarTestes :: IO ()
 executarTestes = do
-    arquivos <- listDirectory "tests"
+    arquivos <- listDirectory "test"
     putStrLn "Executando testes internos..."
     let testes = [ read (takeWhile isDigit (drop 2 f)) :: Int
                  | f <- arquivos, "ex" `isPrefixOf` f, ".py" `isSuffixOf` f]
