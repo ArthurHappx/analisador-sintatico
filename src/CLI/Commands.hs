@@ -55,7 +55,7 @@ mostrarAjuda = do
     exitSuccess
 
 executarTestes :: IO ()
-executarTestes _ = do
+executarTestes = do
     arquivos <- listDirectory "tests"
     putStrLn "Executando testes internos..."
     let testes = [ read (takeWhile isDigit (drop 2 f)) :: Int
