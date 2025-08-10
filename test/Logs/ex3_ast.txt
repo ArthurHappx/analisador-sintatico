@@ -1,9 +1,9 @@
 
 Assign z
-  â””â”€Div
-    â””â”€Div
-      â””â”€Mul
-        â””â”€Num 8
-        â””â”€Num 9.8
-      â””â”€Num 7
-    â””â”€Num 2
+  ÀÄDiv
+    ÀÄDiv
+      ÀÄMul
+        ÀÄNum 8
+        ÀÄNum 9.8
+      ÀÄNum 7
+    ÀÄNum 2

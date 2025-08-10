@@ -1,10 +1,10 @@
 
 Assign x
-  â””â”€Num 10
+  ÀÄNum 10
 
 Assign y
-  â””â”€Add
-    â””â”€Num 2
-    â””â”€Sub
-      â””â”€Num 3
-      â””â”€Var x
+  ÀÄAdd
+    ÀÄNum 2
+    ÀÄSub
+      ÀÄNum 3
+      ÀÄVar x

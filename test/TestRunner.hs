@@ -3,6 +3,7 @@
 
 module TestRunner ( main, runAll ) where
 
+import Control.Exception
 import Parser.Parser ( programParser )
 import AST.VisualAST ( showAST, saveAST )
 import Lexer.Lexer ( lexFromFile )
@@ -12,15 +13,16 @@ main num = do
     lexerResult <- lexFromFile ("./test/ex" ++ show num ++ ".py")
     case lexerResult of
         Left err -> putStrLn err
-        Right tokens -> do
+        Right tokens -> (do
+            ast <- evaluate(programParser tokens) 
             print tokens
             putStrLn (showAST ast)
-            saveAST ast ("./test/Logs/ex" ++ show num ++ "_ast.txt")
-            where ast = programParser tokens
+            saveAST ast ("./test/Logs/ex" ++ show num ++ "_ast.txt")) `catch` \e -> putStrLn $ "Erro ao analisar o arquivo: " ++ show (e :: ErrorCall)
 
 runAll :: [Int] -> IO()
 runAll [] = return ()
 runAll (h:t) = do
     main h
+    putStrLn "\n"
     runAll t
     

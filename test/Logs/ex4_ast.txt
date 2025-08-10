@@ -1,18 +1,18 @@
 
 Assign x
-  â””â”€Div
-    â””â”€Add
-      â””â”€Unary -
-        â””â”€Var b
-      â””â”€Sub
-        â””â”€Mul
-          â””â”€Var b
-          â””â”€Num 2
-        â””â”€Mul
-          â””â”€Mul
-            â””â”€Num 4
-            â””â”€Var a
-          â””â”€Var c
-    â””â”€Mul
-      â””â”€Num 2
-      â””â”€Var a
+  ÀÄDiv
+    ÀÄAdd
+      ÀÄUnary -
+        ÀÄVar b
+      ÀÄSub
+        ÀÄMul
+          ÀÄVar b
+          ÀÄNum 2
+        ÀÄMul
+          ÀÄMul
+            ÀÄNum 4
+            ÀÄVar a
+          ÀÄVar c
+    ÀÄMul
+      ÀÄNum 2
+      ÀÄVar a
