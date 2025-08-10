@@ -1,7 +1,7 @@
 --testes manuais, para roda-los corretamente faça 'ghci -isrc test/TestRunner.hs'
 --assim 'runAll' dave atualizar os resultados em './Logs'
 
-module TestRunner ( main ) where
+module TestRunner ( main, runAll ) where
 
 import Parser.Parser ( programParser )
 import AST.VisualAST ( showAST, saveAST )
