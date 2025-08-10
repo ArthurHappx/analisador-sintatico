@@ -15,8 +15,8 @@ parseArgs :: IO Command
 parseArgs = do
     args <- getArgs
     return $ case args of
+        ["--help"] -> Help
         [file] -> Analyze file
         [file, "-s"] -> AnalyzeSimple file
-        ["--help"] -> Help
         ("-tests":rest) -> Tests rest
         _ -> Invalid
