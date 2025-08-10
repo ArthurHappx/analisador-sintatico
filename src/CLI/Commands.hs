@@ -6,6 +6,10 @@ import CLI.Args (Command(..))
 import Lexer.Lexer (lexer)
 import Parser.Parser (programParser)
 import AST.VisualAST (showAST, saveAST)
+-- import para funcionamento dos testes automáticos
+import qualified TestRunner (runAll)
+import Data.List (isPrefixOf, isSuffixOf)
+import Data.Char (isDigit)
 
 executarComando :: Command -> IO ()
 executarComando (Analyze file) = analisarArquivo file
@@ -54,11 +58,6 @@ executarTestes :: [String] -> IO ()
 executarTestes _ = do
     arquivos <- listDirectory "tests"
     putStrLn "Executando testes internos..."
-    rodarTestes arquivos
-
-rodarTestes :: [FilePath] -> IO ()
-rodarTestes [] = return ()
-rodarTestes (t:ts) = do
-    putStrLn ("Rodando teste: " ++ t)
-    -- Aqui você pode chamar uma função para rodar o teste e comparar resultados
-    rodarTestes ts
+    let testes = [ read (takeWhile isDigit (drop 2 f)) :: Int
+                 | f <- arquivos, "ex" `isPrefixOf` f, ".py" `isSuffixOf` f]
+    TestRunner.runAll testes
