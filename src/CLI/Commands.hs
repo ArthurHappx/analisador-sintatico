@@ -2,7 +2,6 @@ module CLI.Commands (executarComando) where
 
 import Control.Exception
 import System.Directory (listDirectory, doesFileExist)
-import System.Exit (exitSuccess)
 import System.FilePath (takeBaseName)
 import CLI.Args (Command(..))
 import Lexer.Lexer (lexer)
@@ -57,11 +56,11 @@ analisarSimplificado file = do
 mostrarAjuda :: IO ()
 mostrarAjuda = do
     putStrLn "Uso:"
-    putStrLn "./analisador arquivo.py        # análise normal"
-    putStrLn "./analisador arquivo.py -s     # análise e salva o resultado em ./ast_results"
-    putStrLn "./analisador --help            # mostra esta ajuda"
-    putStrLn "./analisador -tests            # executa testes internos e salva em ./test/Logs"
-    exitSuccess
+    putStrLn "arquivo.py        # análise normal"
+    putStrLn "arquivo.py -s     # análise e salva o resultado em ./ast_results"
+    putStrLn "--help            # mostra esta ajuda"
+    putStrLn "-tests            # executa testes internos e salva em ./test/Logs"
+    putStrLn "exit()            # encerra o programa"
 
 executarTestes :: IO ()
 executarTestes = do
