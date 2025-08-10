@@ -54,7 +54,7 @@ mostrarAjuda = do
     putStrLn "./analisador -tests [args...]  # executa testes internos"
     exitSuccess
 
-executarTestes :: [String] -> IO ()
+executarTestes :: IO ()
 executarTestes _ = do
     arquivos <- listDirectory "tests"
     putStrLn "Executando testes internos..."
