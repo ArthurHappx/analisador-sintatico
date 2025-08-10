@@ -9,7 +9,7 @@ import AST.VisualAST (showAST, saveAST)
 
 executarComando :: Command -> IO ()
 executarComando (Analyze file) = analisarArquivo file
-executarComando (AnalyzeSimple file) = analisarArquivoSimplificado file
+executarComando (AnalyzeSimple file) = analisarSimplificado file
 executarComando Help = mostrarAjuda
 executarComando (Tests args) = executarTestes args
 executarComando Invalid = putStrLn "Uso inválido. Tente --help"
