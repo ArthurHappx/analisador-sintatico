@@ -20,7 +20,8 @@ A descrição formal do projeto pode ser encontrada no arquivo:
 ## 🚀 Execução
 
 ```bash
-cabal run analisador -- [args]
+cabal run analisador
+>>[args]
 ```
 
 args:
@@ -29,4 +30,5 @@ args:
 ../path/arquivo.py -s       # análise e salva o resultado em ./ast_results
 --help                      # mostra esta ajuda
 -tests                      # executa testes internos e salva em ./test/Logs
+exit()                      # encerra o programa
 ```
