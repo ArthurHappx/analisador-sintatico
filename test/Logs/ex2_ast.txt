@@ -1,7 +1,7 @@
 
 Assign y
-  ÀÄSub
-    ÀÄSub
-      ÀÄNum 1
-      ÀÄNum 3
-    ÀÄNum 4
+  â””â”€Sub
+    â””â”€Sub
+      â””â”€Num 1
+      â””â”€Num 3
+    â””â”€Num 4

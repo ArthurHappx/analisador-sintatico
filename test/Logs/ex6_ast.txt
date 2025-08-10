@@ -1,15 +1,15 @@
 
 AloneExpr
-ÀÄSub
-  ÀÄAdd
-    ÀÄNum 1
-    ÀÄNum 2
-  ÀÄNum 2
+â””â”€Sub
+  â””â”€Add
+    â””â”€Num 1
+    â””â”€Num 2
+  â””â”€Num 2
 
 AloneExpr
-ÀÄSub
-  ÀÄNum 6
-  ÀÄNum 7
+â””â”€Sub
+  â””â”€Num 6
+  â””â”€Num 7
 
 Assign x
-  ÀÄNum 1
+  â””â”€Num 1

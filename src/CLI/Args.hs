@@ -1,11 +1,11 @@
 -- Modulo de funções implementadas para o funcionamento do CLI
-module CLI.Args (parseArgs, Command(..)) where	
+module CLI.Args (parseArgs, Command(..)) where
 
 import System.Environment (getArgs)
 
-data Command				
+data Command
     = Analyze FilePath
-    | AnalyzeSimple FilePath
+    | AnalyzeSave FilePath
     | Help
     | Tests
     | Invalid
@@ -18,5 +18,5 @@ parseArgs = do
         ["--help"] -> return Help
         ["-tests"] -> return Tests
         [file] -> return (Analyze file)
-        [file, "-s"] -> return (AnalyzeSimple file)
+        [file, "-s"] -> return (AnalyzeSave file)
         _ -> return Invalid

@@ -20,5 +20,13 @@ A descrição formal do projeto pode ser encontrada no arquivo:
 ## 🚀 Execução
 
 ```bash
-ghc app/Main.hs -o analisador
-./analisador < arquivo.py
+cabal run analisador -- [args]
+```
+
+args:
+```bash
+../path/arquivo.py          # análise normal
+../path/arquivo.py -s       # análise e salva o resultado em ./ast_results
+--help                      # mostra esta ajuda
+-tests                      # executa testes internos e salva em ./test/Logs
+```

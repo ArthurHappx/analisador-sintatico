@@ -5,7 +5,7 @@ module TestRunner ( main, runAll ) where
 
 import Control.Exception
 import Parser.Parser ( programParser )
-import AST.VisualAST ( showAST, saveAST )
+import AST.VisualAST ( saveAST )
 import Lexer.Lexer ( lexFromFile )
 
 main :: Int -> IO()
@@ -15,14 +15,11 @@ main num = do
         Left err -> putStrLn err
         Right tokens -> (do
             ast <- evaluate(programParser tokens) 
-            print tokens
-            putStrLn (showAST ast)
-            saveAST ast ("./test/Logs/ex" ++ show num ++ "_ast.txt")) `catch` \e -> putStrLn $ "Erro ao analisar o arquivo: " ++ show (e :: ErrorCall)
+            saveAST ast ("./test/Logs/ex" ++ show num ++ "_ast.txt")) `catch` \e -> writeFile ("./test/Logs/ex" ++ show num ++ "_ast.txt") ("Erro ao analisar o arquivo: " ++ show (e :: ErrorCall))
 
 runAll :: [Int] -> IO()
 runAll [] = return ()
 runAll (h:t) = do
     main h
-    putStrLn "\n"
     runAll t
     

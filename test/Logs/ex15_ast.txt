@@ -1,0 +1,11 @@
+
+Assign x
+  └─Add
+    └─Add
+      └─Num 1
+      └─Num 2
+    └─Mul
+      └─Mul
+        └─Num 3
+        └─Num 8
+      └─Num 8
