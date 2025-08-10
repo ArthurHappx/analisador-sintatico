@@ -16,7 +16,7 @@ parseArgs = do
     args <- getArgs
     case args of
         ["--help"] -> return Help
+        ["-tests"] -> return Tests
         [file] -> return (Analyze file)
         [file, "-s"] -> return (AnalyzeSimple file)
-        ["-tests"] -> return Tests
         _ -> return Invalid
