@@ -1,5 +1,6 @@
 module CLI.Commands (executarComando) where
 
+import Control.Exception
 import System.Directory (listDirectory, doesFileExist)
 import System.Exit (exitSuccess)
 import CLI.Args (Command(..))
@@ -25,12 +26,14 @@ analisarArquivo file = do
         then do
             putStrLn $ "Analisando arquivo: " ++ file
             code <- readFile file
-            let tokens = lexer code
-            let ast = programParser tokens
-            putStrLn "AST gerada:"
-            putStrLn (showAST ast)
-            saveAST ast "resultado_ast.txt"
-            putStrLn "AST salva em resultado_ast.txt"
+            ( do
+                tokens <- evaluate (lexer code)
+                ast <- evaluate (programParser tokens)
+                putStrLn "AST gerada:"
+                putStrLn (showAST ast)
+                saveAST ast "resultado_ast.txt"
+                putStrLn "AST salva em resultado_ast.txt"
+                ) `catch` \e -> putStrLn $ "Erro ao analisar o arquivo: " ++ show (e :: ErrorCall)
         else putStrLn "Arquivo não encontrado."
 
 analisarSimplificado :: FilePath -> IO ()
@@ -40,9 +43,11 @@ analisarSimplificado file = do
         then do
             putStrLn $ "Análise simplificada de: " ++ file
             code <- readFile file
-            let tokens = lexer code
-            let ast = programParser tokens
-            putStrLn (showAST ast)
+            ( do
+                tokens <- evaluate (lexer code)
+                ast <- evaluate (programParser tokens)
+                putStrLn (showAST ast)
+                ) `catch` \e -> putStrLn $ "Erro ao analisar o arquivo: " ++ show (e :: ErrorCall)
         else putStrLn "Arquivo não encontrado."
 
 mostrarAjuda :: IO ()
