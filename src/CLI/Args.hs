@@ -7,7 +7,7 @@ data Command
     = Analyze FilePath
     | AnalyzeSimple FilePath
     | Help
-    | Tests [String]
+    | Tests
     | Invalid
     deriving (Show)
 
@@ -18,5 +18,5 @@ parseArgs = do
         ["--help"] -> Help
         [file] -> Analyze file
         [file, "-s"] -> AnalyzeSimple file
-        ("-tests":rest) -> Tests rest
+        ("-tests") -> return Tests 
         _ -> Invalid
