@@ -18,5 +18,5 @@ parseArgs = do
         ["--help"] -> Help
         [file] -> Analyze file
         [file, "-s"] -> AnalyzeSimple file
-        ["-tests"] -> return Tests 
+        ["-tests"] -> Tests 
         _ -> Invalid
