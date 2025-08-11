@@ -1,3 +1,4 @@
+Program [LineStmt (Assign "x" (Div (Plus (UnaryOp "-" (Var "b")) (Minus (Mult (Var "b") (Number "2")) (Mult (Mult (Number "4") (Var "a")) (Var "c")))) (Mult (Number "2") (Var "a"))))]
 
 Assign x
   └─Div

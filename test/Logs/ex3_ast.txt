@@ -1,9 +1,0 @@
-
-Assign z
-  └─Div
-    └─Div
-      └─Mul
-        └─Num 8
-        └─Num 9.8
-      └─Num 7
-    └─Num 2

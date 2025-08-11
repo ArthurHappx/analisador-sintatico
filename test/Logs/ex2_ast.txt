@@ -1,7 +1,0 @@
-
-Assign y
-  └─Sub
-    └─Sub
-      └─Num 1
-      └─Num 3
-    └─Num 4

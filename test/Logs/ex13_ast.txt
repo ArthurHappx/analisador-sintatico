@@ -1,3 +1,0 @@
-Erro ao analisar o arquivo: SyntaxError: unmatched ')', line 3
-CallStack (from HasCallStack):
-  error, called at src/Parser/Parser.hs:170:67 in analisador-sintatico-0.1.0.0-inplace-analisador:Parser.Parser
