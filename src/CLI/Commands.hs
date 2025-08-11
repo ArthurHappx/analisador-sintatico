@@ -32,7 +32,7 @@ analisarArquivo file = do
                 putStrLn "AST gerada:"
                 putStrLn (showAST ast)
                 saveAST ast ("./ast_results/ast_" ++ takeBaseName file ++ ".txt")
-                putStrLn "AST salva em resultado_ast.txt"
+                putStrLn ("AST salva em ./ast_results/ast_" ++ takeBaseName file ++ ".txt")
                 ) `catch` \e -> do 
                     let eMsg = "Erro ao analisar o arquivo: " ++ show (e :: ErrorCall)
                     writeFile ("./ast_results/ast_" ++ takeBaseName file ++ ".txt") eMsg
