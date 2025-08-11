@@ -6,9 +6,13 @@ Line = Stmt | Expr
 
 Stmt = ident "=" Expr
 
-Expr = Term [Addop Expr]
+Expr = Term Expr'
 
-Term = Factor [Mulop Term]
+Expr' = Addop Term Expr' | Ɛ
+
+Term = Factor Term'
+
+Term' = Mulop Factor Term' | Ɛ
 
 Factor = "(" Expr ")" | Unary | Value
 

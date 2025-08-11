@@ -21,14 +21,18 @@ A descrição formal do projeto pode ser encontrada no arquivo:
 
 ```bash
 cabal run analisador
->>[args]
+```
+```bash
+"Analisador Léxico-Sintático (v0.1.0.0)"
+"Digite '--help' para main informações."
+>>> [args]
 ```
 
-args:
+Argumentos possíveis:
 ```bash
-../path/arquivo.py          # análise normal
-../path/arquivo.py -s       # análise e salva o resultado em ./ast_results
+../path/arquivo.py          # análise normal, exibe ast visual no terminal
+../path/arquivo.py -s       # analisa e salva o resultado em ./ast_results/arquivo_ast.txt
 --help                      # mostra esta ajuda
--tests                      # executa testes internos e salva em ./test/Logs
+-tests                      # executa testes internos e salva em ./test/Logs/arquivo_ast.txt
 exit()                      # encerra o programa
 ```

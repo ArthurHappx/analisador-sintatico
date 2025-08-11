@@ -1,3 +1,0 @@
-Erro ao analisar o arquivo: SyntaxError: invalid syntax '&', line 1
-CallStack (from HasCallStack):
-  error, called at src/Lexer/Lexer.hs:44:32 in analisador-sintatico-0.1.0.0-inplace-analisador:Lexer.Lexer

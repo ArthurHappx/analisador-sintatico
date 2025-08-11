@@ -26,4 +26,4 @@ indent :: String -> String
 indent = unlines . map ("  " ++) . lines
 
 saveAST :: AST -> FilePath -> IO()
-saveAST ast path = writeFile path (showAST ast)
+saveAST ast path = writeFile path (show ast ++ "\n" ++ showAST ast)

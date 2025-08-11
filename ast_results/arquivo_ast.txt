@@ -1,0 +1,4 @@
+Program [LineStmt (Assign "x" (Number "0000"))]
+
+Assign x
+  └─Num 0000

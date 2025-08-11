@@ -1,3 +1,0 @@
-
-Assign x
-  └─Num 2

@@ -1,15 +1,20 @@
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
+
 module Parser.Parser (programParser, Expr(..), AST(..), Stmt(..), Line(..)) where
 
+import GHC.Generics (Generic)
+import Control.DeepSeq (NFData)
 import Lexer.Lexer ( Token(..) )
 
 newtype AST = Program [Line]
-    deriving (Show, Eq)
+    deriving (Show, Eq, Generic, NFData)
 
 data Line = LineStmt Stmt | LineExpr Expr
-    deriving(Show, Eq)
+    deriving(Show, Eq, Generic, NFData)
 
 data Stmt = Assign String Expr
-    deriving (Show, Eq)
+    deriving (Show, Eq, Generic, NFData)
 
 data Expr
     = Number String
@@ -19,7 +24,7 @@ data Expr
     | Mult Expr Expr
     | Div Expr Expr
     | UnaryOp String Expr
-    deriving (Show, Eq)
+    deriving (Show, Eq, Generic, NFData)
 
 {- programParser ->
 Função principal do programa que desencadeia a recursão de todas as outras funções.

@@ -24,7 +24,7 @@ lexFromFile filePath = do
         Right content -> return $ Right $ lexer content
 
 lexer :: String -> [Token]
-lexer input = lexAll 1 input
+lexer = lexAll 1
 
 lexAll :: Int -> String -> [Token]
 lexAll _ [] = [EOF]
@@ -49,7 +49,7 @@ lexIdentifier lineNum input =
     in TkIdent ident : lexAll lineNum rest
 
 lexNumber :: Int -> String -> [Token]
-lexNumber lineNum input = 
+lexNumber lineNum input =
     let (numStr, rest) = span isNumberChar input
         isFloat = '.' `elem` numStr
         (isValid, errorMsg) = validateNumber numStr isFloat
@@ -70,7 +70,8 @@ validateNumber numStr isFloat
         startsWithPoint = head numStr == '.'
         endsWithPoint = last numStr == '.'
         hasLeadingZeros = case numStr of
-            '0':x:_ -> isDigit x
+            '0':xs | all (== '0') xs -> False
+            '0':_:_ -> True
             _ -> False
 
 isNumberChar :: Char -> Bool
