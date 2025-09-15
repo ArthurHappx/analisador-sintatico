@@ -1,6 +1,6 @@
 # Analisador Sintático em Haskell
 
-Projeto desenvolvido para a disciplina de Paradigmas de Linguagens de Programação, com foco educacional na implementação de um analisador léxico e sintático voltado para uma “sublinguagem” de Python.
+Projeto desenvolvido para a disciplina de Paradigmas de Linguagens de Programação, com foco educacional na implementação de um analisador léxico e sintático voltado para uma “sublinguagem” de Python. Vide link para versão do projeto codificada em Prolog: [analisador-sintatico-prolog](https://github.com/DanielPDamiao/analisador-sintatico) 
 
 ## 👨‍💻 Integrantes
 
