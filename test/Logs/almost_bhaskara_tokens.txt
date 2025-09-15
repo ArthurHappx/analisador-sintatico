@@ -1,0 +1,1 @@
+[TkIdent "x",TkAssign,TkOpenPar,TkMinus,TkIdent "b",TkPlus,TkOpenPar,TkIdent "b",TkMult,TkNumber "2",TkMinus,TkNumber "4",TkMult,TkIdent "a",TkMult,TkIdent "c",TkClosePar,TkClosePar,TkDiv,TkOpenPar,TkNumber "2",TkMult,TkIdent "a",TkClosePar,NEWLINE,EOF]
