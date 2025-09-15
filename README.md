@@ -1,13 +1,21 @@
 # Analisador Sintático em Haskell
 
-Projeto desenvolvido para a disciplina de Paradigmas de Linguagens de Programação, com foco educacional na implementação de um analisador léxico e sintático voltado para uma “sublinguagem” de Python. Vide link para versão do projeto codificada em Prolog: [analisador-sintatico-prolog](https://github.com/DanielPDamiao/analisador-sintatico) 
+![language-haskell](https://img.shields.io/badge/language-Haskell-purple) ![haskell2010](https://img.shields.io/badge/standard-Haskell2010-blueviolet) ![ghc](https://img.shields.io/badge/ghc-9.6.7-brightgreen) ![cabal](https://img.shields.io/badge/cabal-3.12.1.0-orange) ![version](https://img.shields.io/badge/version-v0.1.0-green) ![license](https://img.shields.io/badge/license-MIT-lightgrey)
+
+Projeto desenvolvido para a disciplina de Paradigmas de Linguagens de Programação, com foco educacional na implementação de um analisador léxico e sintático voltado para uma “sublinguagem” de Python. 
+
+🔗 Versão em Prolog: [analisador-sintatico-prolog](https://github.com/DanielPDamiao/analisador-sintatico) 
+
+---
 
 ## 👨‍💻 Integrantes
 
-- Arthur Félix — `ArthurHappx`
-- Daniel Damião — `DanielPDamiao`
-- João Moitinho — `DevMoitinho`
-- Arthur Rodrigues — `Arthyp`
+- Arthur Félix — [`ArthurHappx`](https://github.com/ArthurHappx)
+- Daniel Damião — [`DanielPDamiao`](https://github.com/DanielPDamiao)
+- João Moitinho — [`DevMoitinho`](https://github.com/DevMoitinho)
+- Arthur Rodrigues — [`Arthyp`](https://github.com/Arthyp)
+
+---
 
 ## 📄 Especificação do trabalho
 
@@ -19,8 +27,9 @@ A descrição formal do projeto pode ser encontrada no arquivo:
 
 ## 🚀 Execução
 
+Argumentos suportados:
 ```bash
-cabal run analisador
+cabal run analisador        # certifique-se de estar na pasta raiz
 ```
 ```bash
 "Analisador Léxico-Sintático (v0.1.0.0)"
@@ -36,3 +45,7 @@ Argumentos possíveis:
 -tests                      # executa testes internos e salva em ./test/Logs/arquivo_ast.txt
 exit()                      # encerra o programa
 ```
+<blockquote style="background-color: transparent; padding: 8px 14px; border-left: 4px solid rgba(0,0,0,0.35);">
+📝 <strong>Observação:</strong><br>
+O caminho (<code>path</code>) considerado na análise de arquivos é relativo à raiz do projeto.
+</blockquote>
